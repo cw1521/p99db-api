@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 
 
-const dbUri = 'mongodb://localhost:27017/p99';
+const dbUri = process.env.MONGO_URI || 'mongodb://localhost:27017/p99';
 
 const mongooseOptions = {
     useNewUrlParser: true,
@@ -16,11 +16,11 @@ function start(uri = dbUri) {
     mongoose.connect(uri, mongooseOptions);
 
     mongoose.connection.on("connected", () => {
-        console.log("Mongoose connection is open");
+        console.log("Mongoose connection is open.");
     });
 
     mongoose.connection.on("error", (error) => {
-        console.log("Mongoose connection has ocurred " + error + " error.");
+        console.log(`Mongoose connection has ocurred ${error} error.`);
     });
 
     mongoose.connection.on("disconnected", ()=> {
