@@ -1,12 +1,18 @@
 const database = require('./database/database');
 const router = require('./routes/routes');
 
+const https = require('https');
+const fs = require('fs');
+
 const express = require('express');
 const bodyParser = require('body-parser');
+
 
 const cors = require("cors");
 
 const PORT = process.env.PORT || 3500;
+
+const prod = process.env.PROD || false;
 
 const corsOptions = {
     origin: "*"
@@ -47,7 +53,20 @@ database.start();
 
 
 
-server.listen(PORT, () => {
+if (prod) {
+  const httpsOptions = {
+    cert: fs.readFileSync('/etc/letsencrypt/live/www.project1999atlas.com/fullchain.pem'),
+    key: fs.readFileSync('/etc/letsencrypt/live/www.project1999atlas.com/privkey.pem'),
+    dhparam: fs.readFileSync('/etc/ssl/certs/dhparam.pem')
+  }
+  https.createServer(httpsOptions, server)
+  .listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`);
-});
+  })
+}
+else {
+  server.listen(PORT, () => {
+      console.log(`Server is listening on port ${PORT}`);
+  });
+}
 
