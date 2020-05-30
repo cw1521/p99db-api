@@ -12,7 +12,7 @@ const cors = require("cors");
 
 const PORT = process.env.PORT || 3500;
 
-const prod = process.env.PROD || false;
+
 
 const corsOptions = {
     origin: "*"
@@ -53,7 +53,7 @@ database.start();
 
 
 
-if (prod) {
+if (process.env.NODE_ENV === 'production') {
   const httpsOptions = {
     cert: fs.readFileSync('/etc/letsencrypt/live/www.project1999atlas.com/fullchain.pem'),
     key: fs.readFileSync('/etc/letsencrypt/live/www.project1999atlas.com/privkey.pem'),
