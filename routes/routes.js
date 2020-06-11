@@ -1,5 +1,6 @@
 const Continent = require("../controllers/continentController");
-const Zone = require("../controllers/zoneController")
+const Zone = require("../controllers/zoneController");
+const Item = require("../controllers/itemController");
 
 
 const express = require("express");
@@ -47,11 +48,20 @@ function notSupportedHandler(req, res, next) {
     .delete(notSupportedHandler);
 
 
-    router.route("/zones/continent/:continentName/")
+    router.route("/zones/continent/:continentName")
     .get(Zone.getZonesByContinentName)
     .post(notSupportedHandler)
     .put(notSupportedHandler)
     .delete(notSupportedHandler);
+    
+
+    router.route("/items/:itemName")
+    .get(Item.getByName)
+    .post(notSupportedHandler)
+    .put(notSupportedHandler)
+    .delete(notSupportedHandler);
+
+    
 
 
 module.exports = router;
